@@ -1,0 +1,3 @@
+#+TITLE: Fresh Start
+
+Fresh start is a collection of scripts and my personal backups to be able to re-base into a fresh Arch Linux installation and get my configuration back up in a short time. I am stripping sensitive information from the files, but otherwise it is open to the public to download/re-use.
