@@ -18,8 +18,13 @@ if [[ ! -d $mydir/.backups/root/etc/default ]] then
    mkdir -p $mydir/.backups/root/etc/default
 fi
 
+if [[ ! -d $mydir/.backups/root/etc/grub.d ]] then
+   mkdir -p $mydir/.backups/root/etc/grub.d
+fi
+
 print "Backing up GRUB config"
 cp /etc/default/grub $mydir/.backups/root/etc/default/
+cp /etc/grub.d/40_custom $mydir/.backups/root/etc/grub.d/
 
 print "Backing up Doom Emacs config"
 cp -r $HOME/.doom.d $mydir/.backups/

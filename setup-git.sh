@@ -1,4 +1,4 @@
-#!/bin/zsh -f
+#!/usr/bin/bash
 set -euo pipefail
 
 echo "Setting default branch name to main globally (Github PC Update)"

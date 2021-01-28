@@ -5,23 +5,23 @@ mydir=$PWD
 
 if [[ ! -d $HOME/git ]]
 then
-   print "Creating $HOME/git to store git files in and keep the home directory uncluttered."
+   echo "Creating $HOME/git to store git files in and keep the home directory uncluttered."
    mkdir $HOME/git
 fi
 
 if [[ ! -x /usr/bin/git ]]
 then
-   print "Installing git"
+   echo "Installing git"
    sudo pacman -S --noconfirm git
 fi
 
-print "Cloning paru..."
+echo "Cloning paru..."
 cd $HOME/git
 git clone https://aur.archlinux.org/paru.git
 
-print "Building and installing Paru"
+echo "Building and installing Paru"
 cd paru
 makepkg -si --noconfirm
 
-print "Done"
+echo "Done"
 cd $mydir
