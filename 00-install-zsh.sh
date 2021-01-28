@@ -15,7 +15,7 @@ sh -c "$(curl -fsSL https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.
 
 # Install an AUR Helper to complete the installation
 echo "Installing AUR Helper to finish the install"
-zsh -c 02-setup-aur-helper.zsh
+zsh -c $PWD/02-setup-aur-helper.zsh
 
 # Install Nerd Fonts to support Starship
 echo "Installing fonts to support Starship prompt"
