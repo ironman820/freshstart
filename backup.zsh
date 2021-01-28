@@ -21,7 +21,7 @@ fi
 print "Backing up GRUB config"
 cp /etc/default/grub $mydir/.backups/root/etc/default/
 
-print "Backing up Doom Emacs config to $mydir/.backups/.doom.d/"
+print "Backing up Doom Emacs config"
 cp -r $HOME/.doom.d $mydir/.backups/
 
 # This adds the backup to the local repo and commits it.
