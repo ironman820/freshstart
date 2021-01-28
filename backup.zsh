@@ -26,6 +26,13 @@ print "Backing up GRUB config"
 cp /etc/default/grub $mydir/.backups/root/etc/default/
 cp /etc/grub.d/40_custom $mydir/.backups/root/etc/grub.d/
 
+if [[ ! -d $mydir/.backups/root/etc/lightdm ]] then
+   mkdir -p $mydir/.backups/root/etc/lightdm
+fi
+
+print "Backing up LightDM settings"
+cp /etc/lightdm/lightdm-gtk-greeter.conf $mydir/.backups/root/etc/lightdm/
+
 print "Backing up Doom Emacs config"
 cp -r $HOME/.doom.d $mydir/.backups/
 
