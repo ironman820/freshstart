@@ -8,4 +8,4 @@ Backs up Emacs Doom configuration and commits it to the local repository. Edit t
 ** 01-setup-git.zsh
 Sets common settings for git such as the default branch name (master) and the User name and email for commits. Please replace my name with yours in the script before running. Also, it is good practice to use your Github obfuscated email instead of your actual email address. To get the address, log into your Github account and click on your avatar -> Settings -> Emails.
 ** 02-setup-aur-helper.zsh
-Verifies git is installed, and sets up the AUR helper "paru". I clone all of the git repos I work with in the ~/git folder so this script will create it and do the work in that folder.
+Verifies the git package is installed, and sets up the AUR helper "paru". I clone all of the git repositories I work with in the ~/git folder so this script will create it and do the work in that folder.

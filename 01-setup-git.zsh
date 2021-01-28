@@ -1,8 +1,8 @@
 #!/bin/zsh -f
 set -euo pipefail
 
-echo "Setting default branch name to master globally"
-git config --global init.defaultBranch master
+echo "Setting default branch name to main globally (Github PC Update)"
+git config --global init.defaultBranch main
 
 echo "Setting default Global Name to my name"
 git config --global user.name "Nicholas Eastman"
