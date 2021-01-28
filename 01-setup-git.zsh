@@ -1,7 +1,7 @@
 #!/bin/zsh -f
 set -euo pipefail
 
-echo "Setting default branch to master globally"
+echo "Setting default branch name to master globally"
 git config --global init.defaultBranch master
 
 echo "Setting default Global Name to my name"
