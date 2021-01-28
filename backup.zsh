@@ -8,6 +8,19 @@ if [[ ! -d $mydir/.backups ]] then
    mkdir $mydir/.backups
 fi
 
+# Backup root files
+if [[ ! -d $mydir/.backups/root ]] then
+   print "Creating root backup folder"
+   mkdir $mydir/.backups/root
+fi
+
+if [[ ! -d $mydir/.backups/root/etc/default ]] then
+   mkdir -p $mydir/.backups/root/etc/default
+fi
+
+print "Backing up GRUB config"
+cp /etc/default/grub $mydir/.backups/root/etc/default/
+
 print "Backing up Doom Emacs config to $mydir/.backups/.doom.d/"
 cp -r $HOME/.doom.d $mydir/.backups/
 
