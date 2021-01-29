@@ -16,11 +16,29 @@ fi
 
 if [[ ! -d $mydir/.backups/root/etc/default ]] then
    mkdir -p $mydir/.backups/root/etc/default
-fi
+   fi
 
 if [[ ! -d $mydir/.backups/root/etc/grub.d ]] then
    mkdir -p $mydir/.backups/root/etc/grub.d
 fi
+
+if [[ ! -d $mydir/.backups/.xmonad ]] then
+   mkdir -p $mydir/.backups/.xmonad
+fi
+
+if [[ ! -d $mydir/.backups/.config ]] then
+   mkdir -p $mydir/.backups/.config
+fi
+
+print "Backing up XMonad Config"
+cp -r $HOME/bin $mydir/.backups/
+cp $HOME/.xmonad/xmonadctl.hs $mydir/.backups/.xmonad/
+cp $HOME/.xmonad/xmonad.hs $mydir/.backups/.xmonad/
+cp -r $HOME/.config/dunst $mydir/.backups/.config/
+cp -r $HOME/.config/eww $mydir/.backups/.config/
+cp -r $HOME/.config/kitty $mydir/.backups/.config/
+cp $HOME/.config/picom.conf $mydir/.backups/.config/
+cp -r $HOME/.config/tint2 $mydir/.backups/.config/
 
 print "Backing up GRUB config"
 cp /etc/default/grub $mydir/.backups/root/etc/default/

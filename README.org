@@ -3,9 +3,9 @@
 * Overview
 Fresh start is a collection of scripts and my personal backups to be able to re-base into a fresh Arch Linux installation and get my configuration back up in a short time. If you are planning on using the Github backup functionality, please fork this repository so it will use your information respectively.
 * Scripts
-** 00-backup.zsh
+** backup.zsh
 Backs up Emacs Doom configuration and commits it to the local repository. Edit the script and un-comment the git push command if you have forked this project and want it to update your Github/Gitlab repository.
-** 01-setup-git.zsh
+** setup-git.zsh
 Sets common settings for git such as the default branch name (master) and the User name and email for commits. Please replace my name with yours in the script before running. Also, it is good practice to use your Github obfuscated email instead of your actual email address. To get the address, log into your Github account and click on your avatar -> Settings -> Emails.
-** 02-setup-aur-helper.zsh
+** setup-aur-helper.zsh
 Verifies the git package is installed, and sets up the AUR helper "paru". I clone all of the git repositories I work with in the ~/git folder so this script will create it and do the work in that folder.
