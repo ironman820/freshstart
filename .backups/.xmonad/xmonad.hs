@@ -10,7 +10,8 @@ import XMonad.Layout.NoBorders
 import XMonad.Hooks.ManageDocks
 import XMonad.Hooks.ManageHelpers ( doFullFloat, isFullscreen )
 import XMonad.Hooks.ServerMode
-import XMonad.Layout.Spacing ( spacingRaw, Border(Border) )
+import XMonad.Layout.LayoutModifier
+import XMonad.Layout.Spacing
 import XMonad.Layout.Gaps
 
 import qualified XMonad.StackSet as W
@@ -69,7 +70,7 @@ addNETSupported x   = withDisplay $ \dpy -> do
     a_NET_SUPPORTED <- getAtom "_NET_SUPPORTED"
     a               <- getAtom "ATOM"
     liftIO $ do
-       sup <- (join . maybeToList) <$> getWindowProperty32 dpy a_NET_SUPPORTED r
+       sup <- join . maybeToList <$> getWindowProperty32 dpy a_NET_SUPPORTED r
        when (fromIntegral x `notElem` sup) $
          changeProperty32 dpy r a_NET_SUPPORTED a propModeAppend [fromIntegral x]
 
@@ -83,7 +84,7 @@ addEWMHFullscreen   = do
 -- Key bindings. Add, modify or remove key bindings here.
 --
 myKeys :: XConfig Layout -> M.Map (KeyMask, KeySym) (X ())
-myKeys conf@(XConfig {XMonad.modMask = modm}) = M.fromList $
+myKeys conf@XConfig {XMonad.modMask = modm} = M.fromList $
 
     -- launch a terminal
     [ ((modm .|. shiftMask, xK_Return), spawn $ XMonad.terminal conf)
@@ -125,8 +126,8 @@ myKeys conf@(XConfig {XMonad.modMask = modm}) = M.fromList $
     , ((modm .|. shiftMask, xK_c     ), kill)
 
     -- GAPS!!!
-    , ((modm .|. controlMask, xK_g), sendMessage $ ToggleGaps)               -- toggle all gaps
-    , ((modm .|. shiftMask, xK_g), sendMessage $ setGaps [(L,30), (R,30), (U,40), (D,60)]) -- reset the GapSpec
+    , ((modm .|. controlMask, xK_g), sendMessage ToggleGaps)               -- toggle all gaps
+    , ((modm .|. shiftMask, xK_g), sendMessage $ setGaps [(L,30), (R,30), (U,40), (D,30)]) -- reset the GapSpec
     
     , ((modm .|. controlMask, xK_t), sendMessage $ IncGap 10 L)              -- increment the left-hand gap
     , ((modm .|. shiftMask, xK_t     ), sendMessage $ DecGap 10 L)           -- decrement the left-hand gap
@@ -225,18 +226,18 @@ myKeys conf@(XConfig {XMonad.modMask = modm}) = M.fromList $
 --
 myMouseBindings :: XConfig l
                          -> M.Map (KeyMask, Button) (Window -> X ())
-myMouseBindings (XConfig {XMonad.modMask = modm}) = M.fromList $
+myMouseBindings XConfig {XMonad.modMask = modm} = M.fromList
 
     -- mod-button1, Set the window to floating mode and move by dragging
-    [ ((modm, button1), (\w -> focus w >> mouseMoveWindow w
-                                       >> windows W.shiftMaster))
+    [ ((modm, button1), \w -> focus w >> mouseMoveWindow w
+                                       >> windows W.shiftMaster)
 
     -- mod-button2, Raise the window to the top of the stack
-    , ((modm, button2), (\w -> focus w >> windows W.shiftMaster))
+    , ((modm, button2), \w -> focus w >> windows W.shiftMaster)
 
     -- mod-button3, Set the window to floating mode and resize by dragging
-    , ((modm, button3), (\w -> focus w >> mouseResizeWindow w
-                                       >> windows W.shiftMaster))
+    , ((modm, button3), \w -> focus w >> mouseResizeWindow w
+                                       >> windows W.shiftMaster)
 
     -- you may also bind events to the mouse scroll wheel (button4 and button5)
     ]
@@ -252,6 +253,8 @@ myMouseBindings (XConfig {XMonad.modMask = modm}) = M.fromList $
 -- The available layouts.  Note that each layout is separated by |||,
 -- which denotes layout choice.
 --
+myLayout :: XMonad.Layout.LayoutModifier.ModifiedLayout
+                    AvoidStruts (Choose Tall (Choose (Mirror Tall) Full)) a
 myLayout = avoidStruts(tiled ||| Mirror tiled ||| Full)
   where
      -- default tiling algorithm partitions the screen into two panes
@@ -281,12 +284,11 @@ myLayout = avoidStruts(tiled ||| Mirror tiled ||| Full)
 -- To match on the WM_NAME, you can use 'title' in the same way that
 -- 'className' and 'resource' are used below.
 --
+myManageHook :: ManageHook
 myManageHook = fullscreenManageHook <+> manageDocks <+> composeAll
-    [ className =? "MPlayer"        --> doFloat
-    , className =? "Variety" --> doFloat
+    [ className =? "Variety" --> doFloat
     , className =? "Gimp"           --> doFloat
     , resource  =? "desktop_window" --> doIgnore
-    , resource  =? "kdesktop"       --> doIgnore
     , isFullscreen --> doFullFloat
                                  ]
 
@@ -308,6 +310,7 @@ myEventHook = serverModeEventHookCmd <+> serverModeEventHook <+> serverModeEvent
 -- Perform an arbitrary action on each internal state change or X event.
 -- See the 'XMonad.Hooks.DynamicLog' extension for examples.
 --
+myLogHook :: X ()
 myLogHook = return ()
 
 ------------------------------------------------------------------------
@@ -318,8 +321,8 @@ myLogHook = return ()
 -- per-workspace layout choices.
 --
 -- By default, do nothing.
+myStartupHook :: X ()
 myStartupHook = do
-  spawnOnce "pulseaudio &"
   spawnOnce "exec ~/bin/bartoggle"
   spawnOnce "exec ~/bin/eww daemon"
   spawn "xsetroot -cursor_name left_ptr"
@@ -332,17 +335,21 @@ myStartupHook = do
   spawnOnce "nextcloud &"
   spawnOnce "udiskie &"
   spawnOnce "nm-applet &"
-  spawnOnce "volumeicon &"
-  spawnOnce "emacs --daemon &"
+  -- spawnOnce "volumeicon &"
+  -- spawnOnce "emacs --daemon &"
   -- spawnOnce "start-pulseaudio-x11 &"
   spawnOnce "variety &"
   spawnOnce "pa-applet &"
+  spawnOnce "blueberry-tray &"
+  spawnOnce "hp-systray &"
+  -- spawnOnce "pulseaudio &"
 
 ------------------------------------------------------------------------
 -- Now run xmonad with all the defaults we set up.
 
 -- Run xmonad with the settings you specify. No need to modify this.
 --
+main :: IO ()
 main = xmonad $ fullscreenSupport $ docks $ ewmh defaults
 
 -- A structure containing your configuration settings, overriding
@@ -351,6 +358,15 @@ main = xmonad $ fullscreenSupport $ docks $ ewmh defaults
 --
 -- No need to modify this.
 --
+defaults :: XConfig
+                    (ModifiedLayout
+                       Gaps
+                       (ModifiedLayout
+                          XMonad.Layout.Spacing.Spacing
+                          (ModifiedLayout
+                             SmartBorder
+                             (ModifiedLayout
+                                AvoidStruts (Choose Tall (Choose (Mirror Tall) Full))))))
 defaults = def {
       -- simple stuff
         terminal           = myTerminal,
@@ -368,7 +384,7 @@ defaults = def {
 
       -- hooks, layouts
         manageHook = myManageHook, 
-        layoutHook = gaps [(L,30), (R,30), (U,40), (D,60)] $ spacingRaw True (Border 10 10 10 10) True (Border 10 10 10 10) True $ smartBorders $ myLayout,
+        layoutHook = gaps [(L,30), (R,30), (U,40), (D,30)] $ spacingRaw True (Border 10 10 10 10) True (Border 10 10 10 10) True $ smartBorders myLayout,
         handleEventHook    = myEventHook,
         logHook            = myLogHook,
         startupHook        = myStartupHook >> addEWMHFullscreen

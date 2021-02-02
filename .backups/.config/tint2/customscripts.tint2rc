@@ -306,52 +306,52 @@ execp_icon_h = 20
 
 #-------------------------------------
 # Executor 4
-execp = new
-execp_command = ~/bin/notieye
-execp_interval = 1200
-execp_has_icon = 0
-execp_cache_icon = 1
-execp_continuous = 0
-execp_markup = 1
-execp_tooltip = 
-execp_lclick_command = 
-execp_rclick_command = 
-execp_mclick_command = 
-execp_uwheel_command = 
-execp_dwheel_command = 
-execp_font_color = #000000 100
-execp_padding = 0 0
-execp_background_id = 0
-execp_centered = 0
-execp_icon_w = 0
-execp_icon_h = 0
+# execp = new
+# execp_command = ~/bin/notieye
+# execp_interval = 1200
+# execp_has_icon = 0
+# execp_cache_icon = 1
+# execp_continuous = 0
+# execp_markup = 1
+# execp_tooltip =
+# execp_lclick_command =
+# execp_rclick_command =
+# execp_mclick_command =
+# execp_uwheel_command =
+# execp_dwheel_command =
+# execp_font_color = #000000 100
+# execp_padding = 0 0
+# execp_background_id = 0
+# execp_centered = 0
+# execp_icon_w = 0
+# execp_icon_h = 0
 
 #-------------------------------------
 # Executor 5
-execp = new
-execp_command = ~/bin/notipose
-execp_interval = 900
-execp_has_icon = 0
-execp_cache_icon = 1
-execp_continuous = 0
-execp_markup = 1
-execp_tooltip = 
-execp_lclick_command = 
-execp_rclick_command = 
-execp_mclick_command = 
-execp_uwheel_command = 
-execp_dwheel_command = 
-execp_font_color = #000000 100
-execp_padding = 0 0
-execp_background_id = 0
-execp_centered = 0
-execp_icon_w = 0
-execp_icon_h = 0
+# execp = new
+# execp_command = ~/bin/notipose
+# execp_interval = 900
+# execp_has_icon = 0
+# execp_cache_icon = 1
+# execp_continuous = 0
+# execp_markup = 1
+# execp_tooltip =
+# execp_lclick_command =
+# execp_rclick_command =
+# execp_mclick_command =
+# execp_uwheel_command =
+# execp_dwheel_command =
+# execp_font_color = #000000 100
+# execp_padding = 0 0
+# execp_background_id = 0
+# execp_centered = 0
+# execp_icon_w = 0
+# execp_icon_h = 0
 
 #-------------------------------------
 # Button 1
 button = new
-button_icon = /home/axarva/.config/tint2/icons/launch.png
+button_icon = /home/ironman/.config/tint2/icons/launch.png
 button_text = 
 button_lclick_command = rofi-apps
 button_rclick_command = 
@@ -367,7 +367,7 @@ button_max_icon_size = 0
 #-------------------------------------
 # Button 2
 button = new
-button_icon = /home/axarva/.config/tint2/icons/terminal.png
+button_icon = /home/ironman/.config/tint2/icons/terminal.png
 button_text = 
 button_lclick_command = urxvt
 button_rclick_command = 
@@ -383,7 +383,7 @@ button_max_icon_size = 0
 #-------------------------------------
 # Button 3
 button = new
-button_icon = /home/axarva/.config/tint2/icons/thunar.png
+button_icon = /home/ironman/.config/tint2/icons/thunar.png
 button_text = 
 button_lclick_command = 
 button_rclick_command = 
@@ -399,7 +399,7 @@ button_max_icon_size = 0
 #-------------------------------------
 # Button 4
 button = new
-button_icon = /home/axarva/.config/tint2/icons/firefox.png
+button_icon = /home/ironman/.config/tint2/icons/firefox.png
 button_text = 
 button_lclick_command = firefox
 button_rclick_command = 
@@ -415,7 +415,7 @@ button_max_icon_size = 0
 #-------------------------------------
 # Button 5
 button = new
-button_icon = /home/axarva/.config/tint2/icons/geany.png
+button_icon = /home/ironman/.config/tint2/icons/geany.png
 button_text = 
 button_lclick_command = geany
 button_rclick_command = 

@@ -5,7 +5,7 @@ if pgrep tint2; then
 else
  	#exec tint2 -c ~/.config/tint2/task.tint2rc &
 	#exec tint2 -c ~/.config/tint2/launcher.tint2rc &
-    exec tint2 -c ~/.config/tint2/panellauncher.tint2rc &
+    #exec tint2 -c ~/.config/tint2/panellauncher.tint2rc &
 	exec tint2 -c ~/.config/tint2/clock.tint2rc &
 	exec tint2 -c ~/.config/tint2/customscripts.tint2rc &
 	# exec tint2 -c ~/.config/tint2/icons.tint2rc &
