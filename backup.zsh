@@ -22,6 +22,10 @@ if [[ ! -d $mydir/.backups/root/etc/grub.d ]] then
    mkdir -p $mydir/.backups/root/etc/grub.d
 fi
 
+if [[ ! -d $mydir/.backups/root/etc/httpd/conf/extra ]] then
+   mkdir -p $mydir/.backups/root/etc/httpd/conf/extra
+fi
+
 if [[ ! -d $mydir/.backups/.xmonad ]] then
    mkdir -p $mydir/.backups/.xmonad
 fi
@@ -53,6 +57,9 @@ cp /etc/lightdm/lightdm-gtk-greeter.conf $mydir/.backups/root/etc/lightdm/
 
 print "Backing up Doom Emacs config"
 cp -r $HOME/.doom.d $mydir/.backups/
+
+print "Backing up httpd config"
+cp /etc/httpd/conf/extra/httpd-vhosts.conf $mydir/.bacups/root/etc/httpd/conf/extra
 
 paru -Qqe > $mydir/.backups/pkglst.txt
 
