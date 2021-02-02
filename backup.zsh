@@ -61,6 +61,9 @@ cp -r $HOME/.doom.d $mydir/.backups/
 print "Backing up httpd config"
 cp /etc/httpd/conf/extra/httpd-vhosts.conf $mydir/.backups/root/etc/httpd/conf/extra
 
+print "Backing up Putty Configuration"
+cp -r $HOME/.putty $mydir/.backups/
+
 paru -Qqe > $mydir/.backups/pkglst.txt
 
 # This adds the backup to the local repo and commits it.
