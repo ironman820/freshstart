@@ -52,6 +52,7 @@ gawk
 gcc
 gettext
 git
+glocom
 gmrun
 google-chrome
 google-earth-pro

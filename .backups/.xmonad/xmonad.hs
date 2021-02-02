@@ -331,7 +331,7 @@ myStartupHook = do
   spawnOnce "picom -f"
   spawnOnce "greenclip daemon"
   spawnOnce "dunst"
-  spawnOnce "trayer --edge top --align center --widthtype request --padding 6  --distance 8 --distancefrom top --SetDockType true --SetPartialStrut true --expand true --monitor 0 --transparent true --alpha 0 --tint 0x282c34 --height 28 &"
+  -- spawnOnce "trayer --edge top --align center --widthtype request --padding 6  --distance 8 --distancefrom top --SetDockType true --SetPartialStrut true --expand true --monitor 0 --transparent true --alpha 0 --tint 0x282c34 --height 28 &"
   spawnOnce "nextcloud &"
   spawnOnce "udiskie &"
   spawnOnce "nm-applet &"
