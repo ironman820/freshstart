@@ -30,6 +30,10 @@ if [[ ! -d $mydir/.backups/.config ]] then
    mkdir -p $mydir/.backups/.config
 fi
 
+if [[ ! -d $mydir/.backups/root/etc/lightdm ]] then
+   mkdir -p $mydir/.backups/root/etc/lightdm
+fi
+
 print "Backing up XMonad Config"
 cp -r $HOME/bin $mydir/.backups/
 cp $HOME/.xmonad/xmonadctl.hs $mydir/.backups/.xmonad/
@@ -44,15 +48,13 @@ print "Backing up GRUB config"
 cp /etc/default/grub $mydir/.backups/root/etc/default/
 cp /etc/grub.d/40_custom $mydir/.backups/root/etc/grub.d/
 
-if [[ ! -d $mydir/.backups/root/etc/lightdm ]] then
-   mkdir -p $mydir/.backups/root/etc/lightdm
-fi
-
 print "Backing up LightDM settings"
 cp /etc/lightdm/lightdm-gtk-greeter.conf $mydir/.backups/root/etc/lightdm/
 
 print "Backing up Doom Emacs config"
 cp -r $HOME/.doom.d $mydir/.backups/
+
+paru -Qqe > $mydir/.backups/pkglst.txt
 
 # This adds the backup to the local repo and commits it.
 # I highly recommend keeping this functionality in place on your local machine so you have "backups" if needed
