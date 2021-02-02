@@ -59,7 +59,7 @@ print "Backing up Doom Emacs config"
 cp -r $HOME/.doom.d $mydir/.backups/
 
 print "Backing up httpd config"
-cp /etc/httpd/conf/extra/httpd-vhosts.conf $mydir/.bacups/root/etc/httpd/conf/extra
+cp /etc/httpd/conf/extra/httpd-vhosts.conf $mydir/.backups/root/etc/httpd/conf/extra
 
 paru -Qqe > $mydir/.backups/pkglst.txt
 
