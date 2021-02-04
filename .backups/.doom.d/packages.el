@@ -52,4 +52,4 @@
 (package! org-bullets)
 (package! rainbow-mode)
 (package! tldr)
-(package! sublimity)
+;;(package! sublimity)

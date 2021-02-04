@@ -1,7 +1,9 @@
 import XMonad
 import XMonad.Layout.Fullscreen
 import Data.Monoid ()
+import Data.Maybe (isNothing, maybeToList)
 import System.Exit ()
+import Text.Regex
 import XMonad.Util.SpawnOnce ( spawnOnce )
 import Graphics.X11.ExtraTypes.XF86 (xF86XK_AudioLowerVolume, xF86XK_AudioRaiseVolume, xF86XK_AudioMute, xF86XK_MonBrightnessDown, xF86XK_MonBrightnessUp, xF86XK_AudioPlay, xF86XK_AudioPrev, xF86XK_AudioNext)
 import XMonad.Hooks.EwmhDesktops ( ewmh )
@@ -10,13 +12,13 @@ import XMonad.Layout.NoBorders
 import XMonad.Hooks.ManageDocks
 import XMonad.Hooks.ManageHelpers ( doFullFloat, isFullscreen )
 import XMonad.Hooks.ServerMode
+import XMonad.Layout.IndependentScreens
 import XMonad.Layout.LayoutModifier
 import XMonad.Layout.Spacing
 import XMonad.Layout.Gaps
 
 import qualified XMonad.StackSet as W
 import qualified Data.Map        as M
-import Data.Maybe (maybeToList)
 -- The preferred terminal program, which is used in a binding below and by
 -- certain contrib modules.
 --
@@ -55,7 +57,8 @@ myModMask       = mod4Mask
 --
 myWorkspaces :: [[Char]]
 -- myWorkspaces    = ["\63083", "\63288", "\63306", "\61723", "\63107", "\63601", "\63391", "\61713", "\61884"]
-myWorkspaces    = ["1", "2", "3", "4", "5", "6", "7", "8", "9"]
+-- myWorkspaces    = ["1", "2", "3", "4", "5", "6", "7", "8", "9"]
+myWorkspaces    = ["1", "2", "3", "4", "5"]
 
 -- Border colors for unfocused and focused windows, respectively.
 --
@@ -207,8 +210,11 @@ myKeys conf@XConfig {XMonad.modMask = modm} = M.fromList $
     -- mod-[1..9], Switch to workspace N
     -- mod-shift-[1..9], Move client to workspace N
     --
-    [((m .|. modm, k), windows $ f i)
-        | (i, k) <- zip (XMonad.workspaces conf) [xK_1 .. xK_9]
+    --[((m .|. modm, k), windows $ f i)
+    --    | (i, k) <- zip (XMonad.workspaces conf) [xK_1 .. xK_9]
+    --    , (f, m) <- [(W.greedyView, 0), (W.shift, shiftMask)]]
+    [((m .|. modm, k), windows $ onCurrentScreen f i)
+        | (i, k) <- zip (workspaces' conf) [xK_1 .. xK_9]
         , (f, m) <- [(W.greedyView, 0), (W.shift, shiftMask)]]
     ++
 
@@ -284,11 +290,17 @@ myLayout = avoidStruts(tiled ||| Mirror tiled ||| Full)
 -- To match on the WM_NAME, you can use 'title' in the same way that
 -- 'className' and 'resource' are used below.
 --
+--(*!=) :: String -> String -> Bool
+--q *!= x = isNothing $ matchRegex (mkRegex x) q
+--(*!?) :: Functor f => f String -> String -> f Bool
+--q *!? x = fmap (*!= x) q
+
 myManageHook :: ManageHook
 myManageHook = fullscreenManageHook <+> manageDocks <+> composeAll
     [ className =? "Variety" --> doFloat
     , className =? "Gimp"           --> doFloat
     , resource  =? "desktop_window" --> doIgnore
+    --, title *!? "^gloCOM.*Chat" --> doFloat
     , isFullscreen --> doFullFloat
                                  ]
 
@@ -323,6 +335,7 @@ myLogHook = return ()
 -- By default, do nothing.
 myStartupHook :: X ()
 myStartupHook = do
+  spawn "exec ~/.screenlayout/default.sh"
   spawnOnce "exec ~/bin/bartoggle"
   spawnOnce "exec ~/bin/eww daemon"
   spawn "xsetroot -cursor_name left_ptr"
@@ -333,7 +346,7 @@ myStartupHook = do
   spawnOnce "dunst"
   -- spawnOnce "trayer --edge top --align center --widthtype request --padding 6  --distance 8 --distancefrom top --SetDockType true --SetPartialStrut true --expand true --monitor 0 --transparent true --alpha 0 --tint 0x282c34 --height 28 &"
   spawnOnce "nextcloud &"
-  spawnOnce "udiskie &"
+  spawnOnce "udiskie -s &"
   spawnOnce "nm-applet &"
   -- spawnOnce "volumeicon &"
   -- spawnOnce "emacs --daemon &"
@@ -343,38 +356,25 @@ myStartupHook = do
   spawnOnce "blueberry-tray &"
   spawnOnce "hp-systray &"
   -- spawnOnce "pulseaudio &"
+  spawnOnce "remmina -i &"
 
 ------------------------------------------------------------------------
 -- Now run xmonad with all the defaults we set up.
 
 -- Run xmonad with the settings you specify. No need to modify this.
 --
+-- main :: IO ()
 main :: IO ()
-main = xmonad $ fullscreenSupport $ docks $ ewmh defaults
-
--- A structure containing your configuration settings, overriding
--- fields in the default config. Any you don't override, will
--- use the defaults defined in xmonad/XMonad/Config.hs
---
--- No need to modify this.
---
-defaults :: XConfig
-                    (ModifiedLayout
-                       Gaps
-                       (ModifiedLayout
-                          XMonad.Layout.Spacing.Spacing
-                          (ModifiedLayout
-                             SmartBorder
-                             (ModifiedLayout
-                                AvoidStruts (Choose Tall (Choose (Mirror Tall) Full))))))
-defaults = def {
-      -- simple stuff
+main = do
+  nScreens <- countScreens
+  xmonad $ fullscreenSupport $ docks $ ewmh def {
+        -- simple stuff
         terminal           = myTerminal,
         focusFollowsMouse  = myFocusFollowsMouse,
         clickJustFocuses   = myClickJustFocuses,
         borderWidth        = myBorderWidth,
         modMask            = myModMask,
-        workspaces         = myWorkspaces,
+        workspaces         = withScreens nScreens myWorkspaces,
         normalBorderColor  = myNormalBorderColor,
         focusedBorderColor = myFocusedBorderColor,
 

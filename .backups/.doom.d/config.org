@@ -16,10 +16,17 @@ Close without asking and set the theme
 #+begin_src emacs-lisp :tangle yes
 (after! org
   (require 'org-bullets)
-  (add-hook 'org-mode-hook (lambda () (org-bullets-mode 1))))
+  (add-hook 'org-mode-hook (lambda () (org-bullets-mode 1)))
+  (setq org-directory "~/org/"
+        org-default-notes-file (expand-file-name "notes.org" org-directory)
+        org-log-done 'time
+        org-journal-dir "~/org/journal"
+        org-journal-date-format "%B %d, %Y (%A) "
+        org-journal-file-format "%Y-%m-%d.org"
+        org-hide-emphasis-markers t))
 #+end_src
 
-#+begin_src emacs-lisp :tangle yes
+#+begin_src emacs-lisp :tangle no
 (defun dt/org-babel-tangle-async (file)
   "Invoke `org-babel-tangle-file' asynchronously."
   (message "Tangling %s..." (buffer-file-name))
@@ -43,8 +50,8 @@ Close without asking and set the theme
 
 * Sublimity
 Sets up a minimap of the document and shows it on the side.
-#+begin_src emacs-lisp :tangle yes
-(require 'sublimity-scroll)
-(require 'sublimity-map)
-(sublimity-mode 1)
+#+begin_src emacs-lisp :tangle no
+;;(require 'sublimity-scroll)
+;;(require 'sublimity-map)
+;;(sublimity-mode 1)
 #+end_src

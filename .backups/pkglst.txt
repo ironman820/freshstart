@@ -3,6 +3,7 @@ alsa-plugins
 alsa-utils
 anydesk-bin
 apache
+arandr
 aspell
 aspell-en
 autoconf
@@ -47,6 +48,7 @@ file
 findutils
 firefox
 flex
+freeoffice
 galculator
 gawk
 gcc
@@ -68,6 +70,8 @@ gvfs-smb
 gzip
 hlint
 hplip
+hplip-plugin
+hpoj
 htop
 intel-ucode
 iwd
@@ -88,6 +92,7 @@ maim
 make
 mlocate
 mpv
+myrdp
 neofetch
 nerd-fonts-complete
 network-manager-applet
@@ -129,6 +134,7 @@ ranger
 reflector
 remmina
 ripgrep
+ristretto
 rofi-git
 rofi-greenclip
 rsync
@@ -136,7 +142,6 @@ sane
 sed
 shellcheck
 simple-scan
-spotify
 strongswan
 sudo
 teams
@@ -150,6 +155,7 @@ tint2
 tldr
 trayer
 ttf-font-awesome
+tumbler-git
 udiskie
 unzip
 variety
