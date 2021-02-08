@@ -13,6 +13,7 @@ awesome-terminal-fonts
 base
 bat
 betterlockscreen
+bind
 binutils
 bison
 bitwarden-bin
@@ -49,10 +50,14 @@ file-roller
 findutils
 firefox
 flex
+font-manager
+freeoffice
 galculator
 gawk
 gcc
 gettext
+gimp
+gimp-help-en
 git
 glocom
 gmrun
@@ -70,6 +75,8 @@ gvfs-smb
 gzip
 hlint
 hplip
+hplip-plugin
+hpoj
 htop
 intel-ucode
 iwd
@@ -90,7 +97,7 @@ maim
 make
 mlocate
 mpv
-mtr
+myrdp
 neofetch
 nerd-fonts-complete
 network-manager-applet
@@ -103,6 +110,7 @@ nitrogen
 node
 noto-fonts-emoji
 ntfs-3g
+numlockx
 openssh
 pa-applet-git
 pacman
@@ -113,6 +121,7 @@ patch
 pavucontrol
 pcmanfm
 php-apache
+php-gd
 php-sqlsrv
 picom-jonaburg-git
 pkgconf
@@ -133,6 +142,7 @@ ranger
 reflector
 remmina
 ripgrep
+ristretto
 rofi-git
 rofi-greenclip
 rsync
@@ -154,6 +164,7 @@ tint2
 tldr
 trayer
 ttf-font-awesome
+tumbler-git
 udiskie
 unzip
 variety
@@ -163,6 +174,7 @@ virtualbox
 virtualbox-ext-oracle
 virtualbox-guest-iso
 virtualbox-host-modules-arch
+visual-studio-code-bin
 volumeicon
 wget
 which
@@ -228,6 +240,7 @@ xorg-xwininfo
 xorg-xwud
 xterm
 yay-git
+zip
 zoom
 zsh
 zsh-completions
