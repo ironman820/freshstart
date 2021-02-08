@@ -13,6 +13,7 @@ awesome-terminal-fonts
 base
 bat
 betterlockscreen
+bind
 binutils
 bison
 bitwarden-bin
@@ -45,14 +46,18 @@ fakeroot
 fd
 feh
 file
+file-roller
 findutils
 firefox
 flex
+font-manager
 freeoffice
 galculator
 gawk
 gcc
 gettext
+gimp
+gimp-help-en
 git
 glocom
 gmrun
@@ -102,8 +107,10 @@ networkmanager-pptp
 nextcloud-client
 nfs-utils
 nitrogen
+node
 noto-fonts-emoji
 ntfs-3g
+numlockx
 openssh
 pa-applet-git
 pacman
@@ -114,6 +121,7 @@ patch
 pavucontrol
 pcmanfm
 php-apache
+php-gd
 php-sqlsrv
 picom-jonaburg-git
 pkgconf
@@ -142,6 +150,7 @@ sane
 sed
 shellcheck
 simple-scan
+spotify
 strongswan
 sudo
 teams
@@ -165,6 +174,7 @@ virtualbox
 virtualbox-ext-oracle
 virtualbox-guest-iso
 virtualbox-host-modules-arch
+visual-studio-code-bin
 volumeicon
 wget
 which
@@ -230,6 +240,7 @@ xorg-xwininfo
 xorg-xwud
 xterm
 yay-git
+zip
 zoom
 zsh
 zsh-completions
