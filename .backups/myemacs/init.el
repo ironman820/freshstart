@@ -113,3 +113,50 @@
   (counsel-describe-variable-function #'helpful-variable)
   :config
   (counsel-mode 1))
+
+(use-package general
+  :config
+  (general-create-definer ironman/leader-keys
+    :keymaps '(normal insert visual emacs)
+    :prefix "SPC"
+    :global-prefix "C-SPC")
+
+  (ironman/leader-keys
+    "b" '(:ignore b :which-key "buffer")
+    "bk" 'kill-current-buffer
+    "f" '(:ignore f :which-key "file")
+    "fs" 'save-buffer
+    "f." 'counsel-find-file
+    "t" '(:ignore t :which-key "toggles")
+    "tt" '(counsel-load-theme :which-key "choose theme")
+    "w" '(:ignore w :which-key "window")
+    "wh" 'evil-window-left
+    "wj" 'evil-window-down
+    "wk" 'evil-window-up
+    "wl" 'evil-window-right
+    "wq" 'evil-window-delete
+    "ws" 'evil-window-split
+    "wv" 'evil-window-vsplit
+    "q" '(:ignore q :which-key "quit")
+    "qq" 'save-buffers-kill-terminal
+    "SPC" 'counsel-find-file
+    "." 'counsel-find-file))
+
+(use-package evil
+  :init
+  (setq evil-want-integraton t
+	evil-want-keybinding nil)
+  :config
+  (evil-mode 1)
+  (evil-global-set-key 'motion "j" 'evil-next-visual-line)
+  (evil-global-set-key 'motion "k" 'evil-previous-visual-line)
+ 
+  (evil-set-initial-state 'messages-buffer-mode 'normal)
+  (evil-set-initial-state 'dashboard-mode 'normal))
+
+(use-package evil-collection
+  :after evil
+  :config
+  (evil-collection-init))
+
+(use-package hydra)
