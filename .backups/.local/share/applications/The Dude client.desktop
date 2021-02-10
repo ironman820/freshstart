@@ -1,0 +1,10 @@
+[Desktop Entry]
+Encoding=UTF-8
+Name=The Dude client
+Comment=PlayOnLinux
+Type=Application
+Exec=/usr/share/playonlinux/playonlinux --run "The Dude client" %F
+Icon=/home/niceastman/.PlayOnLinux//icones/full_size/The Dude client
+Name[fr_FR]=The Dude client
+StartupWMClass=dude.exe
+Categories=

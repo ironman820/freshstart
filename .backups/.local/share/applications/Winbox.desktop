@@ -1,0 +1,10 @@
+[Desktop Entry]
+Encoding=UTF-8
+Name=Winbox
+Comment=PlayOnLinux
+Type=Application
+Exec=/usr/share/playonlinux/playonlinux --run "Winbox" %F
+Icon=/home/niceastman/.PlayOnLinux//icones/full_size/Winbox
+Name[fr_FR]=Winbox
+StartupWMClass=winbox.exe
+Categories=

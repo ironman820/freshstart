@@ -1,0 +1,10 @@
+[Desktop Entry]
+Encoding=UTF-8
+Name=Icewarp Remote Console
+Comment=PlayOnLinux
+Type=Application
+Exec=/usr/share/playonlinux/playonlinux --run "Icewarp Remote Console" %F
+Icon=/home/niceastman/.PlayOnLinux//icones/full_size/Icewarp Remote Console
+Name[fr_FR]=Icewarp Remote Console
+StartupWMClass=config.exe
+Categories=
