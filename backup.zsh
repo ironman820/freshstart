@@ -38,6 +38,10 @@ if [[ ! -d $mydir/.backups/root/etc/lightdm ]] then
    mkdir -p $mydir/.backups/root/etc/lightdm
 fi
 
+if [[ ! -d $mydir/.backups/.local/share ]] then
+   mkdir -p $mydir/.backups/.local/share
+fi
+
 print "Backing up XMonad Config"
 cp -r $HOME/bin $mydir/.backups/
 cp $HOME/.xmonad/xmonadctl.hs $mydir/.backups/.xmonad/
@@ -66,6 +70,9 @@ cp /etc/httpd/conf/extra/httpd-vhosts.conf $mydir/.backups/root/etc/httpd/conf/e
 
 print "Backing up Putty Configuration"
 cp -r $HOME/.putty $mydir/.backups/
+
+print "Backing up Application Launchers"
+cp -r $HOME/.local/share/applications $mydir/.backups/.local/share/
 
 paru -Qqe > $mydir/.backups/pkglst.txt
 
