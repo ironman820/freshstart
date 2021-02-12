@@ -123,10 +123,18 @@
 
   (ironman/leader-keys
     "b" '(:ignore b :which-key "buffer")
+    "bb" '(counsel-projectile-switch-to-buffer :which-key "switch workspace buffer")
+    "bB" '(counsel-switch-buffer :which-key "switch buffer")
     "bk" 'kill-current-buffer
     "f" '(:ignore f :which-key "file")
     "fs" 'save-buffer
     "f." 'counsel-find-file
+    "g" '(:ignore g :which-key "git")
+    "gg" '(magit-status :which-key "status")
+    "m" '(:ignore m :which-key "<local-leader>")
+    "p" '(:ignore p :which-key "project")
+    "q" '(:ignore q :which-key "quit")
+    "qq" 'save-buffers-kill-terminal
     "t" '(:ignore t :which-key "toggles")
     "tt" '(counsel-load-theme :which-key "choose theme")
     "w" '(:ignore w :which-key "window")
@@ -137,9 +145,14 @@
     "wq" 'evil-window-delete
     "ws" 'evil-window-split
     "wv" 'evil-window-vsplit
-    "q" '(:ignore q :which-key "quit")
-    "qq" 'save-buffers-kill-terminal
-    "." 'counsel-find-file))
+    "SPC" 'projectile-find-file
+    "." '(counsel-find-file :which-key "Find File")
+    ":" '(counsel-M-x :which-key "M-x"))
+
+  (general-create-definer ironman/local-leader
+    :keymaps '(normal insert visual emacs)
+    :prefix "SPC m"
+    :global-prefix "C-SPC m"))
 
 (use-package evil
   :init
@@ -159,3 +172,33 @@
   (evil-collection-init))
 
 (use-package hydra)
+
+(use-package projectile
+  :diminish projectile-mode
+  :config (projectile-mode)
+  :custom ((projectile-completion-system 'ivy))
+  :bind-keymap
+  ("C-c p" . projectile-command-map)
+  :init
+  ;; NOTE: Set this to the folder where you keep your Git repos!
+  (when (file-directory-p "~/Projects/Code")
+    (setq projectile-project-search-path '("~/Projects/Code")))
+  (setq projectile-switch-project-action #'projectile-dired))
+
+(ironman/leader-keys
+  "pp" '(counsel-projectile-switch-project :which-key "switch projects")
+  "pa" '(projectile-add-known-project :which-key "add project"))
+
+(use-package counsel-projectile
+  :config (counsel-projectile-mode))
+
+(use-package persp-projectile)
+
+(use-package magit
+  :custom
+  (magit-display-buffer-function #'magit-display-buffer-same-window-except-diff-v1))
+
+(use-package evil-collection
+  :after evil
+  :config
+  (evil-collection-init))

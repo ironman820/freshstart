@@ -123,24 +123,44 @@
 
   (ironman/leader-keys
     "b" '(:ignore b :which-key "buffer")
-    "bk" 'kill-current-buffer
+    "bb" '(counsel-projectile-switch-to-buffer :which-key "switch workspace buffer")
+    "bB" '(counsel-switch-buffer :which-key "switch buffer")
+    "bc" '(clone-indirect-buffer :which-key "clone buffer")
+    "bk" '(kill-current-buffer :which-key "kill buffer")
+    "bl" '(evil-switch-to-windows-last-buffer :which-key "switch to last buffer")
+    "br" '(revert-buffer :which-key "revert buffer")
+    "bS" '(evil-write-all :which-key "save all buffers")
     "f" '(:ignore f :which-key "file")
-    "fs" 'save-buffer
-    "f." 'counsel-find-file
+    "fs" '(save-buffer :which-key "save file")
+    "fS" '(write-file :which-key "Save file as...")
+    "f." '(counsel-find-file :which-key "find file")
+    "g" '(:ignore g :which-key "git")
+    "gg" '(magit-status :which-key "status")
+    "m" '(:ignore m :which-key "<localleader>")
+    "o" '(:ignore o :which-key "open")
+    "of" '(make-frame :which-key "open frame")
+    "p" '(:ignore p :which-key "project")
+    "q" '(:ignore q :which-key "quit")
+    "qq" 'save-buffers-kill-terminal
     "t" '(:ignore t :which-key "toggles")
     "tt" '(counsel-load-theme :which-key "choose theme")
     "w" '(:ignore w :which-key "window")
-    "wh" 'evil-window-left
-    "wj" 'evil-window-down
-    "wk" 'evil-window-up
-    "wl" 'evil-window-right
-    "wq" 'evil-window-delete
-    "ws" 'evil-window-split
-    "wv" 'evil-window-vsplit
-    "q" '(:ignore q :which-key "quit")
-    "qq" 'save-buffers-kill-terminal
-    "SPC" 'counsel-find-file
-    "." 'counsel-find-file))
+    "wh" '(evil-window-left :which-key "Move to left window")
+    "wj" '(evil-window-down :which-key "Move to window below")
+    "wk" '(evil-window-up :which-key "Move to window above")
+    "wl" '(evil-window-right :which-key "Move to right window")
+    "wq" '(evil-quit :which-key "close frame/quit")
+    "ws" '(evil-window-split :which-key "Split window Horizontally")
+    "wT" '(tear-off-window :which-key "Tear off window")
+    "wv" '(evil-window-vsplit :which-key "Split window vertically")
+    "SPC" '(projectile-find-file :which-key "Find file in project")
+    "." '(counsel-find-file :which-key "Find File")
+    ":" '(counsel-M-x :which-key "M-x"))
+
+  (general-create-definer ironman/local-leader
+    :keymaps '(normal insert visual emacs)
+    :prefix "SPC m"
+    :global-prefix "C-SPC m"))
 
 (use-package evil
   :init
@@ -160,3 +180,36 @@
   (evil-collection-init))
 
 (use-package hydra)
+
+(use-package projectile
+  :diminish projectile-mode
+  :config (projectile-mode)
+  :custom ((projectile-completion-system 'ivy))
+  :bind-keymap
+  ("C-c p" . projectile-command-map)
+  :init
+  ;; NOTE: Set this to the folder where you keep your Git repos!
+  (when (file-directory-p "~/Projects/Code")
+    (setq projectile-project-search-path '("~/Projects/Code")))
+  (setq projectile-switch-project-action #'projectile-dired))
+
+(ironman/leader-keys
+  "pa" '(projectile-add-known-project :which-key "add project")
+  "pd" '(projectile-remove-known-project :which-key "Remove known project")
+  "pi" '(projectile-invalidate-cache :which-key "Invalidate project cache")
+  "pp" '(counsel-projectile-switch-project :which-key "switch projects")
+)
+
+(use-package counsel-projectile
+  :config (counsel-projectile-mode))
+
+(use-package persp-projectile)
+
+(use-package magit
+  :custom
+  (magit-display-buffer-function #'magit-display-buffer-same-window-except-diff-v1))
+
+(use-package evil-collection
+  :after evil
+  :config
+  (evil-collection-init))
