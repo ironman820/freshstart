@@ -55,3 +55,5 @@
 ;;(package! sublimity)
 (package! junos-mode)
 ;;(package! fira-code-mode)
+(package! zerodark-theme)
+(disable-packages! phpunit php-boris)

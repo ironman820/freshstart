@@ -20,6 +20,7 @@ bitwarden-bin
 blueberry
 bluez
 bluez-utils
+boris
 brightnessctl
 bunsen-themes-git
 cabal-install
@@ -36,11 +37,10 @@ debtap
 deja-dup
 discount
 dmenu
-doas
 downgrade
 dunst
 efibootmgr
-emacs
+emacs-native-comp-git
 exa
 fakeroot
 fd
@@ -61,6 +61,7 @@ gimp-help-en
 git
 glocom
 gmrun
+gnuplot
 google-chrome
 google-earth-pro
 grep
@@ -81,6 +82,7 @@ htop
 intel-ucode
 iwd
 jq
+jupyter
 kitty
 libnma
 libtool
@@ -97,6 +99,7 @@ maim
 make
 mlocate
 mpv
+mtr
 myrdp
 neofetch
 nerd-fonts-complete
@@ -107,10 +110,12 @@ networkmanager-pptp
 nextcloud-client
 nfs-utils
 nitrogen
-node
+nodejs
 noto-fonts-emoji
+npm
 ntfs-3g
 numlockx
+opendoas
 openssh
 pa-applet-git
 pacman
@@ -123,6 +128,7 @@ pcmanfm
 php-apache
 php-gd
 php-sqlsrv
+phpunit
 picom-jonaburg-git
 pkgconf
 playerctl
@@ -155,6 +161,9 @@ strongswan
 sudo
 teams
 texinfo
+texlive-bin
+texlive-core
+texlive-science
 thefuck
 thunar
 thunar-archive-plugin

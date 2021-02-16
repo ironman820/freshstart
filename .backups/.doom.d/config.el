@@ -2,7 +2,7 @@
       user-mail-address "nicholas.m.eastman@gmail.com")
 
 (setq confirm-kill-emacs nil)
-(setq doom-theme 'doom-one)
+(setq doom-theme 'zerodark)
 (setq visible-bell 1)
 
 (global-auto-revert-mode 1)
@@ -21,9 +21,14 @@
   (require 'org-bullets)
   (add-hook 'org-mode-hook (lambda () (org-bullets-mode 1)))
   (setq org-directory "~/org/"
+        org-noter-notes-search-path "~/Notes"
         org-default-notes-file (expand-file-name "notes.org" org-directory)
         org-log-done 'time
         org-journal-dir "~/org/journal"
         org-journal-date-format "%B %d, %Y (%A) "
         org-journal-file-format "%Y-%m-%d.org"
         org-hide-emphasis-markers 1))
+
+(after! lsp-mode
+  (setq lsp-enable-file-watchers t
+        lsp-file-watch-threshold nil))

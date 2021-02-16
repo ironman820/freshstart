@@ -74,12 +74,19 @@
   :init (doom-modeline-mode 1))
 
 ;; Doom Themes!
-(use-package doom-themes
+;;(use-package doom-themes
+;;  :config
+;;  (setq doom-themes-enable-bold t
+;;	doom-themes-enable-italic t)
+;;  (load-theme 'doom-dracula t)
+;;  (doom-themes-visual-bell-config))
+
+(use-package flycheck)
+
+(use-package zerodark-theme
   :config
-  (setq doom-themes-enable-bold t
-	doom-themes-enable-italic t)
-  (load-theme 'doom-acario-dark t)
-  (doom-themes-visual-bell-config))
+  (load-theme 'zerodark t)
+  (zerodark-setup-modeline-format))
 
 ;; Display Line numbers and column numbers in the mode line
 (column-number-mode)
@@ -141,7 +148,8 @@
     "of" '(make-frame :which-key "open frame")
     "p" '(:ignore p :which-key "project")
     "q" '(:ignore q :which-key "quit")
-    "qq" 'save-buffers-kill-terminal
+    "qq" '(save-buffers-kill-terminal :which-key "Save and Quit")
+    "qQ" '(evil-quit-all-with-error-code :which-key "Quit without saving")
     "t" '(:ignore t :which-key "toggles")
     "tt" '(counsel-load-theme :which-key "choose theme")
     "w" '(:ignore w :which-key "window")
@@ -213,3 +221,86 @@
   :after evil
   :config
   (evil-collection-init))
+
+(defun ironman/org-font-setup ()
+  ;; Replace list hyphen with dot
+  (font-lock-add-keywords 'org-mode
+                          '(("^ *\\([-]\\) "
+                             (0 (prog1 () (compose-region (match-beginning 1) (match-end 1) "•"))))))
+
+  ;; Set faces for heading levels
+  (dolist (face '((org-level-1 . 1.2)
+                  (org-level-2 . 1.1)
+                  (org-level-3 . 1.05)
+                  (org-level-4 . 1.0)
+                  (org-level-5 . 1.1)
+                  (org-level-6 . 1.1)
+                  (org-level-7 . 1.1)
+                  (org-level-8 . 1.1)))
+    (set-face-attribute (car face) nil :font "FiraCode Nerd Font Mono" :weight 'regular :height (cdr face)))
+
+  ;; Ensure that anything that should be fixed-pitch in Org files appears that way
+  (set-face-attribute 'org-block nil    :foreground nil :inherit 'fixed-pitch)
+  (set-face-attribute 'org-table nil    :inherit 'fixed-pitch)
+  (set-face-attribute 'org-formula nil  :inherit 'fixed-pitch)
+  (set-face-attribute 'org-code nil     :inherit '(shadow fixed-pitch))
+  (set-face-attribute 'org-table nil    :inherit '(shadow fixed-pitch))
+  (set-face-attribute 'org-verbatim nil :inherit '(shadow fixed-pitch))
+  (set-face-attribute 'org-special-keyword nil :inherit '(font-lock-comment-face fixed-pitch))
+  (set-face-attribute 'org-meta-line nil :inherit '(font-lock-comment-face fixed-pitch))
+  (set-face-attribute 'org-checkbox nil  :inherit 'fixed-pitch)
+  (set-face-attribute 'line-number nil :inherit 'fixed-pitch)
+  (set-face-attribute 'line-number-current-line nil :inherit 'fixed-pitch))
+
+(defun ironman/org-mode-setup ()
+  (org-indent-mode)
+  (variable-pitch-mode 1)
+  (visual-line-mode 1))
+
+(use-package org
+  ;;:pin org
+  ;;:commands (org-capture org-agenda)
+  :hook (org-mode . ironman/org-mode-setup)
+  :custom
+  (org-hide-emphasis-markers t)
+  (org-ellipsis " ▾")
+  (org-agenda-files
+	'("~/org"))
+  (org-agenda-start-with-log-mode t)
+  (org-log-done 'time)
+  (org-log-into-drawer t)
+  (org-agenda-start-day "-3d")
+  (org-agenda-span 10)
+  (org-todo-keyword-faces
+	'(("TODO" . "green") ("PROJ" . "gray") ("STRT" . "purple") ("WAIT" . "orange") ("HOLD" . "orange") ("DONE" . "black") ("KILL" . "red") ("[ ]" . "green") ("[-]" . "gray") ("[?]" . "orange") ("[X]" . "black")))
+  :config
+  (setq org-todo-keywords
+	'((sequence "TODO(t)" "PROJ(p)" "STRT(s)" "WAIT(w)" "HOLD(h)" "|" "DONE(d)" "KILL(k)")
+	  (sequence "[ ](T)" "[-](S)" "[?](W)" "|" "[X](D)")))
+  (ironman/org-font-setup))
+
+(ironman/local-leader
+  :states 'normal
+  :keymaps 'org-mode-map
+  "A" 'org-archive-subtree
+  "d" '(:ignore d :which-key "date/deadline")
+  "dd" 'org-deadline
+  "ds" 'org-schedule
+  "dt" 'org-time-stamp
+  "g" '(:ignore g :which-key "goto")
+  "gg" 'counsel-org-goto
+  "p" 'org-priority
+  "t" 'org-todo)
+
+(ironman/leader-keys
+  "oA" 'org-agenda)
+
+(use-package org-bullets
+  :hook (org-mode . org-bullets-mode))
+
+(use-package evil-org
+  :after org
+  :hook (org-mode . (lambda () evil-org-mode))
+  :config
+  (require 'evil-org-agenda)
+  (evil-org-agenda-set-keys))

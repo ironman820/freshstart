@@ -10,7 +10,7 @@
 Close without asking and set the theme
 #+begin_src emacs-lisp :tangle yes
 (setq confirm-kill-emacs nil)
-(setq doom-theme 'doom-one)
+(setq doom-theme 'zerodark)
 (setq visible-bell 1)
 #+end_src
 
@@ -36,6 +36,7 @@ Global Auto-revert Mode: makes emacs update buffers when the external file chang
   (require 'org-bullets)
   (add-hook 'org-mode-hook (lambda () (org-bullets-mode 1)))
   (setq org-directory "~/org/"
+        org-noter-notes-search-path "~/Notes"
         org-default-notes-file (expand-file-name "notes.org" org-directory)
         org-log-done 'time
         org-journal-dir "~/org/journal"
@@ -44,32 +45,10 @@ Global Auto-revert Mode: makes emacs update buffers when the external file chang
         org-hide-emphasis-markers 1))
 #+end_src
 
-#+begin_src emacs-lisp :tangle no
-(defun dt/org-babel-tangle-async (file)
-  "Invoke `org-babel-tangle-file' asynchronously."
-  (message "Tangling %s..." (buffer-file-name))
-  (async-start
-   (let ((args (list file)))
-  `(lambda ()
-        (require 'org)
-        ;;(load "~/.emacs.d/init.el")
-        (let ((start-time (current-time)))
-          (apply #'org-babel-tangle-file ',args)
-          (format "%.2f" (float-time (time-since start-time))))))
-   (let ((message-string (format "Tangling %S completed after " file)))
-     `(lambda (tangle-time)
-        (message (concat ,message-string
-                         (format "%s seconds" tangle-time)))))))
-
-(defun dt/org-babel-tangle-current-buffer-async ()
-  "Tangle current buffer asynchronously."
-  (dt/org-babel-tangle-async (buffer-file-name)))
-#+end_src
-
-* Sublimity
-Sets up a minimap of the document and shows it on the side.
-#+begin_src emacs-lisp :tangle no
-(require 'sublimity-scroll)
-;;(require 'sublimity-map)
-(sublimity-mode 1)
+* Programming Specific
+** LSP-Mode
+#+begin_src emacs-lisp :tangle yes
+(after! lsp-mode
+  (setq lsp-enable-file-watchers t
+        lsp-file-watch-threshold nil))
 #+end_src
