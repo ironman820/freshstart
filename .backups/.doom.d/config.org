@@ -52,3 +52,19 @@ Global Auto-revert Mode: makes emacs update buffers when the external file chang
   (setq lsp-enable-file-watchers t
         lsp-file-watch-threshold nil))
 #+end_src
+** PHP Mode
+#+begin_src emacs-lisp :tangle yes
+(after! php-mode
+  (add-hook 'php-mode-hook 'php-enable-default-coding-style))
+#+end_src
+
+* Email Configuration
+#+begin_src emacs-lisp :tangle yes
+(set-email-account! "gmail.com"
+                    '((mu4e-sent-folder . "/[Gmail].Sent Mail")
+                      (mu4e-drafts-folder . "/[Gmail].Drafts")
+                      (mu4e-trash-folder . "/[Gmail].Trash")
+                      (mu4e-refile-folder . "/[Gmail].All Mail")
+                      (smtpmail-smtp-user . "nicholas.m.eastman@gmail.com"))
+                    t)
+#+end_src

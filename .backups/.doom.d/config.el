@@ -32,3 +32,14 @@
 (after! lsp-mode
   (setq lsp-enable-file-watchers t
         lsp-file-watch-threshold nil))
+
+(after! php-mode
+  (add-hook 'php-mode-hook 'php-enable-default-coding-style))
+
+(set-email-account! "gmail.com"
+                    '((mu4e-sent-folder . "/[Gmail].Sent Mail")
+                      (mu4e-drafts-folder . "/[Gmail].Drafts")
+                      (mu4e-trash-folder . "/[Gmail].Trash")
+                      (mu4e-refile-folder . "/[Gmail].All Mail")
+                      (smtpmail-smtp-user . "nicholas.m.eastman@gmail.com"))
+                    t)
