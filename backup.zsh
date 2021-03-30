@@ -62,9 +62,6 @@ cp /etc/lightdm/lightdm-gtk-greeter.conf $mydir/.backups/root/etc/lightdm/
 print "Backing up Doom Emacs config"
 cp -r $HOME/.doom.d $mydir/.backups/
 
-print "Backing up My Emacs Config"
-cp -r $HOME/myemacs $mydir/.backups/
-
 print "Backing up httpd config"
 cp /etc/httpd/conf/extra/httpd-vhosts.conf $mydir/.backups/root/etc/httpd/conf/extra
 
@@ -86,4 +83,4 @@ git commit -m "Backup $curdate"
 
 # This line pushes the changes back to Github.
 # uncomment if you have forked my repo or added your own upstream.
-# git push origin master
+git push origin master
