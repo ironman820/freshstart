@@ -357,6 +357,7 @@ myStartupHook = do
   spawnOnce "hp-systray &"
   -- spawnOnce "pulseaudio &"
   spawnOnce "remmina -i &"
+  spawnOnce "light-locker &"
 
 ------------------------------------------------------------------------
 -- Now run xmonad with all the defaults we set up.

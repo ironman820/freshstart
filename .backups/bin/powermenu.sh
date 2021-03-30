@@ -80,7 +80,8 @@ case $chosen in
         fi
         ;;
     $lock)
-		betterlockscreen -l dimblur
+		# betterlockscreen -l dim
+        light-locker-command -l
         ;;
     $suspend)
 		ans=$(confirm_exit &)
