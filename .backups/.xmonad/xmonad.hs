@@ -1,22 +1,22 @@
 import XMonad
 import XMonad.Layout.Fullscreen
 import Data.Monoid ()
-import Data.Maybe (isNothing, maybeToList)
+import Data.Maybe (maybeToList, isNothing)
 import System.Exit ()
-import Text.Regex
+import Text.Regex (matchRegex, mkRegex)
 import XMonad.Util.SpawnOnce ( spawnOnce )
 import Graphics.X11.ExtraTypes.XF86 (xF86XK_AudioLowerVolume, xF86XK_AudioRaiseVolume, xF86XK_AudioMute, xF86XK_MonBrightnessDown, xF86XK_MonBrightnessUp, xF86XK_AudioPlay, xF86XK_AudioPrev, xF86XK_AudioNext)
 import XMonad.Hooks.EwmhDesktops ( ewmh )
 import Control.Monad ( join, when )
 import XMonad.Layout.NoBorders
+import XMonad.Layout.PerWorkspace ( onWorkspace )
 import XMonad.Hooks.ManageDocks
-import XMonad.Hooks.ManageHelpers ( doFullFloat, isFullscreen )
+import XMonad.Hooks.ManageHelpers ( doFullFloat, isFullscreen, isDialog )
 import XMonad.Hooks.ServerMode
 import XMonad.Layout.IndependentScreens
 import XMonad.Layout.LayoutModifier
 import XMonad.Layout.Spacing
-import XMonad.Layout.Gaps
-
+import XMonad.Layout.Accordion
 import qualified XMonad.StackSet as W
 import qualified Data.Map        as M
 -- The preferred terminal program, which is used in a binding below and by
@@ -127,22 +127,6 @@ myKeys conf@XConfig {XMonad.modMask = modm} = M.fromList $
 
     -- close focused window
     , ((modm .|. shiftMask, xK_c     ), kill)
-
-    -- GAPS!!!
-    , ((modm .|. controlMask, xK_g), sendMessage ToggleGaps)               -- toggle all gaps
-    , ((modm .|. shiftMask, xK_g), sendMessage $ setGaps [(L,30), (R,30), (U,40), (D,30)]) -- reset the GapSpec
-    
-    , ((modm .|. controlMask, xK_t), sendMessage $ IncGap 10 L)              -- increment the left-hand gap
-    , ((modm .|. shiftMask, xK_t     ), sendMessage $ DecGap 10 L)           -- decrement the left-hand gap
-    
-    , ((modm .|. controlMask, xK_y), sendMessage $ IncGap 10 U)              -- increment the top gap
-    , ((modm .|. shiftMask, xK_y     ), sendMessage $ DecGap 10 U)           -- decrement the top gap
-    
-    , ((modm .|. controlMask, xK_u), sendMessage $ IncGap 10 D)              -- increment the bottom gap
-    , ((modm .|. shiftMask, xK_u     ), sendMessage $ DecGap 10 D)           -- decrement the bottom gap
-
-    , ((modm .|. controlMask, xK_i), sendMessage $ IncGap 10 R)              -- increment the right-hand gap
-    , ((modm .|. shiftMask, xK_i     ), sendMessage $ DecGap 10 R)           -- decrement the right-hand gap
 
      -- Rotate through the available layout algorithms
     , ((modm,               xK_space ), sendMessage NextLayout)
@@ -259,9 +243,11 @@ myMouseBindings XConfig {XMonad.modMask = modm} = M.fromList
 -- The available layouts.  Note that each layout is separated by |||,
 -- which denotes layout choice.
 --
-myLayout :: XMonad.Layout.LayoutModifier.ModifiedLayout
-                    AvoidStruts (Choose Tall (Choose (Mirror Tall) Full)) a
-myLayout = avoidStruts(tiled ||| Mirror tiled ||| Full)
+myLayout :: ModifiedLayout
+                    AvoidStruts
+                    (Choose Tall (Choose (Mirror Tall) (Choose Accordion Full)))
+                    Window
+myLayout = avoidStruts(tiled ||| Mirror tiled ||| Accordion ||| Full)
   where
      -- default tiling algorithm partitions the screen into two panes
      tiled   = Tall nmaster delta ratio
@@ -275,6 +261,16 @@ myLayout = avoidStruts(tiled ||| Mirror tiled ||| Full)
      -- Percent of screen to increment by when resizing panes
      delta   = 3/100
 
+myLayout2 :: ModifiedLayout
+                     AvoidStruts
+                     (Choose Accordion (Choose Full (Choose Tall (Mirror Tall))))
+                     Window
+myLayout2 = avoidStruts(Accordion ||| Full ||| tiled ||| Mirror tiled)
+  where
+    tiled = Tall nmaster delta ratio
+    nmaster = 1
+    ratio = 1/2
+    delta = 3/100
 ------------------------------------------------------------------------
 -- Window rules:
 
@@ -297,12 +293,30 @@ myLayout = avoidStruts(tiled ||| Mirror tiled ||| Full)
 
 myManageHook :: ManageHook
 myManageHook = fullscreenManageHook <+> manageDocks <+> composeAll
-    [ className =? "Variety" --> doFloat
-    , className =? "Gimp"           --> doFloat
-    , resource  =? "desktop_window" --> doIgnore
-    --, title *!? "^gloCOM.*Chat" --> doFloat
-    , isFullscreen --> doFullFloat
+    [ className =? "confirm"         --> doFloat
+     , className =? "file_progress"   --> doFloat
+     , className =? "dialog"          --> doFloat
+     , className =? "download"        --> doFloat
+     , className =? "error"           --> doFloat
+     , className =? "Gimp"            --> doFloat
+     , className =? "notification"    --> doFloat
+     , className =? "pinentry-gtk-2"  --> doFloat
+     , className =? "splash"          --> doFloat
+     , className =? "toolbar"         --> doFloat
+     , title =? "Open" --> doFloat
+     , title =? "Oracle VM VirtualBox Manager"  --> doFloat
+     , className =? "Variety" --> doFloat
+     , appName =? "winbox.exe" --> doShift "0_1"
+     , appName =? "dude.exe" --> doShift "0_1"
+     , resource  =? "desktop_window" --> doIgnore
+     , className =? "firefox" --> doShift "1_1"
+     , className =? "gloCOM" --> doShift "1_1"
+     , (className =? "gloCOM" <&&> isDialog) --> doShift "1_5"
+     , (className =? "soffice" <&&> title =? "Open") --> doFloat
+     --, title *!? "^gloCOM.*Chat" --> doFloat
+     , isFullscreen --> doFullFloat
                                  ]
+    where unfloat = ask >>= doF . W.sink
 
 ------------------------------------------------------------------------
 -- Event handling
@@ -339,7 +353,7 @@ myStartupHook = do
   spawnOnce "exec ~/bin/bartoggle"
   spawnOnce "exec ~/bin/eww daemon"
   spawn "xsetroot -cursor_name left_ptr"
-  spawn "exec ~/bin/lock.sh"
+  -- spawn "exec ~/bin/lock.sh"
   -- spawnOnce "feh --bg-scale ~/wallpapers/yosemite-lowpoly.jpg"
   spawnOnce "picom -fb"
   spawnOnce "greenclip daemon"
@@ -385,7 +399,7 @@ main = do
 
       -- hooks, layouts
         manageHook = myManageHook, 
-        layoutHook = gaps [(L,30), (R,30), (U,40), (D,30)] $ spacingRaw True (Border 10 10 10 10) True (Border 10 10 10 10) True $ smartBorders myLayout,
+        layoutHook = spacingRaw False (Border 0 20 0 20) True (Border 20 0 20 0) True $ onWorkspace "0_1" myLayout2 $ smartBorders $ myLayout,
         handleEventHook    = myEventHook,
         logHook            = myLogHook,
         startupHook        = myStartupHook >> addEWMHFullscreen

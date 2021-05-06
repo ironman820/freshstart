@@ -35,6 +35,7 @@ cura
 dbeaver
 debtap
 deja-dup
+discord
 discount
 dmenu
 downgrade
@@ -87,6 +88,7 @@ jupyter
 kitty
 libmpdclient
 libnma
+libreoffice-fresh
 libtool
 light-locker
 light-locker-settings
@@ -163,7 +165,6 @@ remmina
 ripgrep
 ristretto
 rofi
-rofi-greenclip
 rsync
 ruby-ronn
 sane
@@ -203,11 +204,15 @@ vlc
 volumeicon
 wget
 which
+wine-gecko
+wine-mono
+winetricks
 wireshark-qt
 wmctrl
 xautolock
 xclip
 xdg-desktop-portal-gtk
+xdotool
 xf86-video-intel
 xf86-video-vesa
 xmobar

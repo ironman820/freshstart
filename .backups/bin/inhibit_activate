@@ -1,6 +1,6 @@
 #!/bin/bash
-running=$(ps h -C xautolock | grep -wv $$ | wc -l);
-[[ $running < 1 ]] && notify-send "Inhibitor Already Active"&& exit;
+running=$(ps h -C light-locker-command | grep -wv $$ | wc -l);
+[[ $running > 0 ]] && notify-send "Inhibitor Already Active"&& exit;
 
 notify-send "Inhibitor" "Activated"
-pkill xautolock
+light-locker-command -i &
